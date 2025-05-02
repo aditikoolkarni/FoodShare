@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const { connectDB } = require('./config/mongodb');
 const { user_router } = require('./routes/user.routes');
 const { post_router } = require('./routes/post.routes');
+const { expirePostsJob } = require('./utils/cronJob');
 require('dotenv').config();
 
 const PORT = process.env.PORT || 5000;
@@ -21,6 +22,8 @@ app.use(cookieParser());
 
 app.use("/user", user_router)
 app.use("/post", post_router)
+
+expirePostsJob()
 
 app.listen(PORT, async ()=>{
     try{

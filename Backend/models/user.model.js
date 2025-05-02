@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
  * - password: The user's hashed password (required).
  * - total_donation_made: Total number of donations made by the user (default: 0).
  * - total_requests_fulfilled: Total number of other users' requests fulfilled (default: 0).
- * - rating: User’s average rating (default: 0).
+ * - rating: Object containing average rating and number of ratings (default: { average_rating: 0, count: 0 }).
  * - createdAt / updatedAt: Automatically managed by Mongoose (via timestamps).
  *
  * @typedef {Object} User
@@ -20,7 +20,9 @@ const mongoose = require('mongoose');
  * @property {string} password - Hashed password.
  * @property {number} total_donation_made - Number of donations the user made.
  * @property {number} total_requests_fulfilled - Number of fulfilled requests.
- * @property {number} rating - User's rating.
+ * @property {Object} rating - User's rating.
+ * @property {number} rating.average_rating - Average rating value.
+ * @property {number} rating.count - Number of ratings received.
  * @property {Date} createdAt - Auto-generated timestamp of creation.
  * @property {Date} updatedAt - Auto-generated timestamp of last update.
  */
@@ -48,9 +50,15 @@ const user_schema = new mongoose.Schema({
         default: 0
     },
     rating: {
-        type: Number,
-        default: 0
-    },
+        average_rating: {
+            type: Number,
+            default: 0
+        },
+        count: {
+            type: Number,
+            default: 0
+        }
+    }
 }, { timestamps: true });
 
 /**

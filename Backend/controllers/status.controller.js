@@ -26,5 +26,21 @@ const update = async (post_id, status) => {
     }
 }
 
+const getStatusByPostId = async (post_id) => {
+    try {
+        if (!post_id) {
+            throw new Error('Post ID is required');
+        }
+        const status = await Status.findOne({ post_id });
+        if (!status) {
+            throw new Error('Status not found');
+        }
+        return status;
+    }
+    catch (error) {
+        throw new Error('Error fetching status: ' + error.message);
+    }   
+}
 
-module.exports = { create, update };
+
+module.exports = { create, update, getStatusByPostId };
